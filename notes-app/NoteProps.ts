@@ -1,5 +1,5 @@
 export interface NoteProps {
-    id: number;
+    id?: number;
     content: string;
     date: Date;
 }

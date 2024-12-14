@@ -9,38 +9,38 @@ import { Stack, useFocusEffect } from "expo-router";
 import { useSearchParams } from "expo-router/build/hooks";
 import { Box, Button, TextArea } from "native-base";
 import axios from "axios";
+import { getNoteById, saveNote } from "../../services";
+import { NoteProps } from "../../NoteProps";
 
 const NotesPage = () => {
-  const [data, setData] = useState<string | null>(null);
+  const [data, setData] = useState<NoteProps | null>(null);
+  const [noteText, setNoteText] = useState<string>("");
   const [hasChanged, setHasChanged] = useState<boolean>(false);
   const [params] = useSearchParams();
   const id: number = Number(params[1]);
 
-  const url: string = "http://localhost:5000/notes";
+  const fetchNoteData = async () => {
+    const data = await getNoteById(id);
 
-  const loadNotesAsync = async () => {
-    await axios
-      .get(url)
-      .then((res) => setData(res.data[0].content))
-      .catch((error) => console.error(error));
-  };
+    console.log(data)
+    setData(data.content);
+    setNoteText(data.content);
+  }
 
   const saveNoteAsync = async () => {
-    try {
-      const note = {
-        content: data,
-      };
-
-      await axios.put(`${url}/${id}`, note).then((res) => console.log(res));
-    } catch (error) {
-      console.error(error);
+    const note:NoteProps = {
+      id: id,
+      content: noteText,
+      date: new Date(),
     }
+    const res = await saveNote(id, note);
+    console.log(res);
   };
 
   useFocusEffect(
     useCallback(() => {
       //Get Notes
-      loadNotesAsync();
+      fetchNoteData();
 
       return () => {
      
@@ -67,12 +67,12 @@ const NotesPage = () => {
       </View>
       <View style={{ height: "100%" }}>
         <TextArea
-          value={data}
+          value={noteText}
           placeholder="Geben Sie hier Ihre Notiz ein... 🚀✨"
           onChange={(e: NativeSyntheticEvent<TextInputChangeEventData>) =>
             setData(e.currentTarget.value)
           }
-          onChangeText={(text: string) => {setData(text); setHasChanged(true);}}
+          onChangeText={(text: string) => {setNoteText(text); setHasChanged(true);}}
           h="100%"
           w="100%"
           tvParallaxProperties={undefined}

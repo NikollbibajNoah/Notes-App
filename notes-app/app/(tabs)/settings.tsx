@@ -2,7 +2,7 @@ import { View, Text } from 'react-native'
 import React from 'react'
 import { Link } from 'expo-router'
 
-const notes = () => {
+const settings = () => {
   return (
     <View>
       <Text>Hier sind die Einstellungen!</Text>
@@ -10,4 +10,4 @@ const notes = () => {
   )
 }
 
-export default notes;
+export default settings;

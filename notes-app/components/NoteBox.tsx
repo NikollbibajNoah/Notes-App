@@ -1,29 +1,57 @@
-import React from "react";
-import { View, StyleSheet, Text } from "react-native";
+import React, { useState } from "react";
+import { View, StyleSheet, Text, Button } from "react-native";
 import { NoteProps } from "../NoteProps";
 import { Link } from "expo-router";
+import { DeleteIcon } from "native-base";
+import { deleteNote } from "../services";
 
-export const NoteBox: React.FC<NoteProps> = ({ id, content, date }) => {
+interface NoteBoxProps extends NoteProps {
+  onDelete: (id: number) => void;
+}
+
+export const NoteBox: React.FC<NoteBoxProps> = ({ id, content, date, onDelete }) => {
+  const dateString = new Date(date).toLocaleDateString();
+  const dateTimeString = new Date(date).toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+
+  const handleNoteDelete = async () => {
+    await deleteNote(id);
+
+    console.log("Deleted " + id);
+  };
+
   return (
-    <Link href={`/notes/${id}`}>
-      <View style={styles.NoteBox}>
+    <View style={styles.NoteBox}>
+      <View style={styles.NoteHeading}>
         <View>
           <Text style={styles.NoteHeader}>
             <b>Notiz: </b>
             {id}
           </Text>
         </View>
+        <View style={{ marginLeft: "auto" }}>
+          <button style={styles.NoteEdit} onClick={() => onDelete(id)}>
+            <DeleteIcon />
+          </button>
+        </View>
+      </View>
+
+      <Link href={`/notes/${id}`}>
         <View style={styles.NoteContent}>
           <Text numberOfLines={4}>{content}</Text>
         </View>
         <View style={styles.DateDisplay}>
           Zuletzt bearbeitet: <br />
           <Text style={{ color: "gray" }}>
-            <em>{date.toString()}</em>
+            <em>
+              {dateString} - {dateTimeString}
+            </em>
           </Text>
         </View>
-      </View>
-    </Link>
+      </Link>
+    </View>
   );
 };
 
@@ -44,7 +72,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
   },
   NoteContent: {
-    maxHeight: 70,
+    height: 70,
     color: "gray",
   },
   NoteHeader: {
@@ -52,5 +80,18 @@ const styles = StyleSheet.create({
   },
   DateDisplay: {
     marginTop: "auto",
+  },
+  NoteHeading: {
+    height: 32,
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  NoteEdit: {
+    padding: 4,
+    border: "none",
+    cursor: "pointer",
+    display: "flex",
+    borderRadius: 50,
   },
 });
