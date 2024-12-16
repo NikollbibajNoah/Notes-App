@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet } from "react-native";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { AddIcon, Box, Button, Heading, Link } from "native-base";
-import { CircularButton, GridList, NoteBox } from "../../components";
+import { CircularButton, GridList, NoteCard } from "../../components";
 import { NoteProps } from "../../NoteProps";
 import { createNote, deleteNote, getNotes, saveNote } from "../../services";
 import { useNavigation } from "@react-navigation/native";
@@ -17,6 +17,7 @@ const home = () => {
 
   useFocusEffect(
     useCallback(() => {
+
       //Get Notes
       const fetchData = async () => {
         const notes = await getNotes();
@@ -70,7 +71,7 @@ const home = () => {
                     new Date(b.date).getTime() - new Date(a.date).getTime()
                 )
                 .map((note: NoteProps, i: number) => (
-                  <NoteBox
+                  <NoteCard
                     key={i}
                     {...note}
                     onDelete={(id: number) => {
@@ -98,7 +99,7 @@ const home = () => {
       >
         <AlertDialog.Content>
           <AlertDialog.CloseButton />
-          <AlertDialog.Header>Delete Customer</AlertDialog.Header>
+          <AlertDialog.Header>Notiz Löschen?</AlertDialog.Header>
           <AlertDialog.Body>
             Diese ausgwählte Notiz wird unwiderruflich gelöscht. Bist du sicher?
           </AlertDialog.Body>

@@ -1,26 +1,43 @@
 import React, { useState } from "react";
-import { View, StyleSheet, Text, Button } from "react-native";
+import { View, StyleSheet, Text, Button, Pressable } from "react-native";
 import { NoteProps } from "../NoteProps";
 import { Link } from "expo-router";
-import { DeleteIcon } from "native-base";
-import { deleteNote } from "../services";
+import { Menu, HamburgerIcon, DeleteIcon } from "native-base";
 
 interface NoteBoxProps extends NoteProps {
   onDelete: (id: number) => void;
 }
 
-export const NoteBox: React.FC<NoteBoxProps> = ({ id, content, date, onDelete }) => {
+export interface MenuItem {
+  title: string;
+  onClick: () => void;
+  icon?: React.ReactNode;
+  isDisabled?: boolean;
+}
+
+export const NoteCard: React.FC<NoteBoxProps> = ({
+  id,
+  content,
+  date,
+  onDelete,
+}) => {
   const dateString = new Date(date).toLocaleDateString();
   const dateTimeString = new Date(date).toLocaleTimeString([], {
     hour: "2-digit",
     minute: "2-digit",
   });
 
-  const handleNoteDelete = async () => {
-    await deleteNote(id);
-
-    console.log("Deleted " + id);
-  };
+  const MenuItems: MenuItem[] = [
+    {
+      title: "Löschen",
+      onClick: () => onDelete(id),
+      icon: <DeleteIcon />,
+    },
+    {
+      title: "Bearbeiten",
+      onClick: () => console.log("Hallo"),
+    },
+  ];
 
   return (
     <View style={styles.NoteBox}>
@@ -31,10 +48,31 @@ export const NoteBox: React.FC<NoteBoxProps> = ({ id, content, date, onDelete })
             {id}
           </Text>
         </View>
-        <View style={{ marginLeft: "auto" }}>
-          <button style={styles.NoteEdit} onClick={() => onDelete(id)}>
-            <DeleteIcon />
-          </button>
+        <View style={styles.NoteEdit}>
+          <Menu
+            w="190"
+            trigger={(triggerProps) => {
+              return (
+                <Pressable
+                  accessibilityLabel="More options menu"
+                  {...triggerProps}
+                >
+                  <HamburgerIcon />
+                </Pressable>
+              );
+            }}
+          >
+            {MenuItems.map((item: MenuItem, i: number) => (
+              <Menu.Item
+                key={i}
+                onPress={item.onClick}
+                isDisabled={item.isDisabled}
+              >
+                {item.icon ? item.icon : null}
+                {item.title}
+              </Menu.Item>
+            ))}
+          </Menu>
         </View>
       </View>
 
@@ -66,7 +104,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 8,
     elevation: 5,
-    cursor: "pointer",
     padding: 6,
     display: "flex",
     flexDirection: "column",
@@ -88,9 +125,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   NoteEdit: {
-    padding: 4,
+    padding: 6,
     border: "none",
     cursor: "pointer",
+    marginLeft: "auto",
     display: "flex",
     borderRadius: 50,
   },
