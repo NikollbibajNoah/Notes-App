@@ -9,7 +9,7 @@ import { Stack, useFocusEffect } from "expo-router";
 import { useSearchParams } from "expo-router/build/hooks";
 import { Box, Button, TextArea } from "native-base";
 import axios from "axios";
-import { getNoteById, saveNote } from "../../services";
+import { getNoteById, readNoteByIdFromFirebase, saveNote, updateNoteToFirebase } from "../../services";
 import { NoteProps } from "../../NoteProps";
 
 const NotesPage = () => {
@@ -20,9 +20,11 @@ const NotesPage = () => {
   const id: number = Number(params[1]);
 
   const fetchNoteData = async () => {
-    const data = await getNoteById(id);
 
-    console.log(data)
+    // const data = await getNoteById(id);
+    const data = await readNoteByIdFromFirebase(id);
+
+
     setData(data.content);
     setNoteText(data.content);
   }
@@ -31,9 +33,10 @@ const NotesPage = () => {
     const note:NoteProps = {
       id: id,
       content: noteText,
-      date: new Date(),
+      date: new Date().toString(),
     }
-    const res = await saveNote(id, note);
+    // const res = await saveNote(id, note);
+    const res = await updateNoteToFirebase(note);
     console.log(res);
   };
 

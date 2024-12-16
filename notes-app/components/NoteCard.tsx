@@ -110,6 +110,7 @@ const styles = StyleSheet.create({
   },
   NoteContent: {
     height: 70,
+    width: "100%",
     color: "gray",
   },
   NoteHeader: {

@@ -3,8 +3,11 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import { AddIcon, Box, Button, Heading, Link } from "native-base";
 import { CircularButton, GridList, NoteCard } from "../../components";
 import { NoteProps } from "../../NoteProps";
-import { createNote, deleteNote, getNotes, saveNote } from "../../services";
-import { useNavigation } from "@react-navigation/native";
+import {
+  deleteNoteFromFirebase,
+  readNotesFromFirebase,
+  updateNoteToFirebase,
+} from "../../services";
 import { useFocusEffect } from "expo-router";
 import { AlertDialog } from "native-base";
 
@@ -13,15 +16,25 @@ const home = () => {
   const [currentNote, setCurrentNote] = useState<number>(null);
   const [data, setData] = useState<NoteProps[]>([]);
   const [isOpen, setIsOpen] = useState(false);
-  const navigation = useNavigation();
 
   useFocusEffect(
     useCallback(() => {
-
       //Get Notes
       const fetchData = async () => {
-        const notes = await getNotes();
-        setData(notes);
+        // if (checkConnection() && localStorageState) {
+
+        // }
+        // const notes = await getNotes(); // Local Storage
+        const firebaseNotes = await readNotesFromFirebase();
+
+        // if (notes) {
+        //   setData(notes);
+        // } else if (firebaseNotes) {
+        //   setData(Object.values(firebaseNotes));
+        // }
+        if (firebaseNotes) {
+          setData(Object.values(firebaseNotes));
+        }
       };
 
       fetchData();
@@ -36,22 +49,28 @@ const home = () => {
   const cancelRef = useRef(null);
 
   const handleNewNote = async () => {
+    let newId = data.length + 1;
+
+    //Check duplicate ids
+    data.map((note: NoteProps) => {
+      if (newId === note.id) {
+        newId = note.id + 1;
+      }
+    });
+
     const newNote: NoteProps = {
+      id: newId,
       content: "Das ist meine neue Notiz! Click mich um zu bearbeiten.",
-      date: new Date(),
+      date: new Date().toString(),
     };
 
-    const res = await createNote(newNote);
-
-    if (res) {
-      ///navigate to new note
-    }
+    await updateNoteToFirebase(newNote);
 
     setUpdatedState(true);
   };
 
   const handleNoteDelete = async (id: number) => {
-    await deleteNote(id);
+    await deleteNoteFromFirebase(id);
 
     setUpdatedState(true);
   };
@@ -64,7 +83,7 @@ const home = () => {
         </View>
         <View style={styles.Grid}>
           <GridList>
-            {data.length > 0 ? (
+            {data && data.length > 0 ? (
               data
                 .sort(
                   (a: NoteProps, b: NoteProps) =>
