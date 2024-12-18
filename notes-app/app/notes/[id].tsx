@@ -55,7 +55,7 @@ const NotesPage = () => {
       <View>
         <Stack.Screen
           options={{
-            headerTitle: `Details #${id}`,
+            headerTitle: `Notiz #${id}`,
             headerRight: () => (
               hasChanged ? (<View style={{marginRight: 12}}>
                 <Button onPress={() => {

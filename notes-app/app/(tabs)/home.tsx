@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { AddIcon, Box, Button, Heading, Link } from "native-base";
 import { CircularButton, GridList, NoteCard } from "../../components";
@@ -78,9 +78,10 @@ const home = () => {
 
   return (
     <SafeAreaView style={styles.Container}>
-        <View style={styles.Heading}>
-          <Heading>Guten Tag! Hier sind deine Notizen</Heading>
-        </View>
+      <View style={styles.Heading}>
+        <Heading>Guten Tag! Hier sind deine Notizen</Heading>
+      </View>
+      <ScrollView>
         <View style={styles.Grid}>
           <GridList>
             {data && data.length > 0 ? (
@@ -104,6 +105,8 @@ const home = () => {
             )}
           </GridList>
         </View>
+      </ScrollView>
+
       <View style={styles.AddNoteButton}>
         <CircularButton size={96} onPress={handleNewNote}>
           <AddIcon size={8} color="white" />
@@ -153,7 +156,6 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     padding: 16,
-    overflowY: "auto",
     display: "flex",
     flexDirection: "column",
   },

@@ -33,10 +33,6 @@ export const NoteCard: React.FC<NoteBoxProps> = ({
       onClick: () => onDelete(id),
       icon: <DeleteIcon />,
     },
-    {
-      title: "Bearbeiten",
-      onClick: () => console.log("Hallo"),
-    },
   ];
 
   return (
@@ -44,7 +40,7 @@ export const NoteCard: React.FC<NoteBoxProps> = ({
       <View style={styles.NoteHeading}>
         <View>
           <Text style={styles.NoteHeader}>
-            <b>Notiz: </b>
+            Notiz:
             {id}
           </Text>
         </View>
@@ -82,11 +78,9 @@ export const NoteCard: React.FC<NoteBoxProps> = ({
             <Text numberOfLines={4}>{content}</Text>
           </View>
           <View style={styles.DateDisplay}>
-            Zuletzt bearbeitet: <br />
+            Zuletzt bearbeitet:
             <Text style={{ color: "gray" }}>
-              <em>
-                {dateString} - {dateTimeString}
-              </em>
+              {dateString} - {dateTimeString}
             </Text>
           </View>
         </Link>
@@ -128,7 +122,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   NoteEdit: {
-    padding: 6,
+    padding: 12,
     border: "none",
     cursor: "pointer",
     marginLeft: "auto",
