@@ -10,6 +10,7 @@ import {
 } from "../../services";
 import { useFocusEffect } from "expo-router";
 import { AlertDialog } from "native-base";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const home = () => {
   const [updatedState, setUpdatedState] = useState(false);
@@ -76,8 +77,7 @@ const home = () => {
   };
 
   return (
-    <>
-      <View style={styles.Container}>
+    <SafeAreaView style={styles.Container}>
         <View style={styles.Heading}>
           <Heading>Guten Tag! Hier sind deine Notizen</Heading>
         </View>
@@ -104,7 +104,6 @@ const home = () => {
             )}
           </GridList>
         </View>
-      </View>
       <View style={styles.AddNoteButton}>
         <CircularButton size={96} onPress={handleNewNote}>
           <AddIcon size={8} color="white" />
@@ -145,7 +144,7 @@ const home = () => {
           </AlertDialog.Footer>
         </AlertDialog.Content>
       </AlertDialog>
-    </>
+    </SafeAreaView>
   );
 };
 

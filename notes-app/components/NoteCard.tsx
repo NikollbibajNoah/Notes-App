@@ -48,7 +48,7 @@ export const NoteCard: React.FC<NoteBoxProps> = ({
             {id}
           </Text>
         </View>
-        <View style={styles.NoteEdit}>
+        <Pressable style={styles.NoteEdit}>
           <Menu
             w="190"
             trigger={(triggerProps) => {
@@ -73,22 +73,24 @@ export const NoteCard: React.FC<NoteBoxProps> = ({
               </Menu.Item>
             ))}
           </Menu>
-        </View>
+        </Pressable>
       </View>
 
-      <Link href={`/notes/${id}`}>
-        <View style={styles.NoteContent}>
-          <Text numberOfLines={4}>{content}</Text>
-        </View>
-        <View style={styles.DateDisplay}>
-          Zuletzt bearbeitet: <br />
-          <Text style={{ color: "gray" }}>
-            <em>
-              {dateString} - {dateTimeString}
-            </em>
-          </Text>
-        </View>
-      </Link>
+      <Pressable>
+        <Link href={`/notes/${id}`}>
+          <View style={styles.NoteContent}>
+            <Text numberOfLines={4}>{content}</Text>
+          </View>
+          <View style={styles.DateDisplay}>
+            Zuletzt bearbeitet: <br />
+            <Text style={{ color: "gray" }}>
+              <em>
+                {dateString} - {dateTimeString}
+              </em>
+            </Text>
+          </View>
+        </Link>
+      </Pressable>
     </View>
   );
 };

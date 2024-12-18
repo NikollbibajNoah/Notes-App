@@ -8,7 +8,6 @@ import React, { useCallback, useEffect, useState } from "react";
 import { Stack, useFocusEffect } from "expo-router";
 import { useSearchParams } from "expo-router/build/hooks";
 import { Box, Button, TextArea } from "native-base";
-import axios from "axios";
 import { getNoteById, readNoteByIdFromFirebase, saveNote, updateNoteToFirebase } from "../../services";
 import { NoteProps } from "../../NoteProps";
 
