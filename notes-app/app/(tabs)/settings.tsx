@@ -2,16 +2,20 @@ import { View, Text, StyleSheet, ScrollView } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Section } from "../../components";
-import { Image } from "native-base";
+import { Heading, Image } from "native-base";
 
 const benedictLogo = require("../../assets/benedict.png");
 const expoLogo = require("../../assets/expo.png");
 const reactLogo = require("../../assets/react.png");
+const firebaseLogo = require("../../assets/firebase.png");
 
 const settings = () => {
   return (
-    <SafeAreaView style={styles.Container}>
+    <View style={styles.Container}>
       <ScrollView>
+        <View style={styles.Heading}>
+          <Heading>Einstellungen</Heading>
+        </View>
         <Section label="Darstellung">
           <Text>Dunkel/Hell Modus</Text>
         </Section>
@@ -51,19 +55,31 @@ const settings = () => {
                 resizeMode="contain"
               />
             </View>
+            <View style={styles.Logo}>
+              <Image
+                source={firebaseLogo}
+                width="100%"
+                height="100%"
+                resizeMode="contain"
+              />
+            </View>
           </View>
         </Section>
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   Container: {
-    padding: 16,
+    paddingLeft: 16,
+    paddingRight: 16,
     width: "100%",
     height: "100%",
-    overflowY: "scroll",
+  },
+  Heading: {
+    marginBottom: 16,
+    marginTop: 16,
   },
   Content: {
     marginBottom: 12,

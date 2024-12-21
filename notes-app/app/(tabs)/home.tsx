@@ -77,7 +77,7 @@ const home = () => {
   };
 
   return (
-    <SafeAreaView style={styles.Container}>
+    <View style={styles.Container}>
       <View style={styles.Heading}>
         <Heading>Guten Tag! Hier sind deine Notizen</Heading>
       </View>
@@ -147,7 +147,7 @@ const home = () => {
           </AlertDialog.Footer>
         </AlertDialog.Content>
       </AlertDialog>
-    </SafeAreaView>
+    </View>
   );
 };
 
@@ -155,12 +155,14 @@ const styles = StyleSheet.create({
   Container: {
     width: "100%",
     height: "100%",
-    padding: 16,
+    paddingLeft: 16,
+    paddingRight: 16,
     display: "flex",
     flexDirection: "column",
   },
   Heading: {
     marginBottom: 16,
+    marginTop: 16,
   },
   Grid: {},
   Button: {

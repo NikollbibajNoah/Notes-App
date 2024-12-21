@@ -3,12 +3,20 @@ import {
   Text,
   TextInputChangeEventData,
   NativeSyntheticEvent,
+  KeyboardAvoidingView,
+  TextInput,
+  StyleSheet,
 } from "react-native";
 import React, { useCallback, useEffect, useState } from "react";
 import { Stack, useFocusEffect } from "expo-router";
 import { useSearchParams } from "expo-router/build/hooks";
 import { Box, Button, TextArea } from "native-base";
-import { getNoteById, readNoteByIdFromFirebase, saveNote, updateNoteToFirebase } from "../../services";
+import {
+  getNoteById,
+  readNoteByIdFromFirebase,
+  saveNote,
+  updateNoteToFirebase,
+} from "../../services";
 import { NoteProps } from "../../NoteProps";
 
 const NotesPage = () => {
@@ -19,21 +27,19 @@ const NotesPage = () => {
   const id: number = Number(params[1]);
 
   const fetchNoteData = async () => {
-
     // const data = await getNoteById(id);
     const data = await readNoteByIdFromFirebase(id);
 
-
     setData(data.content);
     setNoteText(data.content);
-  }
+  };
 
   const saveNoteAsync = async () => {
-    const note:NoteProps = {
+    const note: NoteProps = {
       id: id,
       content: noteText,
       date: new Date().toString(),
-    }
+    };
     // const res = await saveNote(id, note);
     const res = await updateNoteToFirebase(note);
     console.log(res);
@@ -44,9 +50,7 @@ const NotesPage = () => {
       //Get Notes
       fetchNoteData();
 
-      return () => {
-     
-      };
+      return () => {};
     }, [])
   );
 
@@ -56,34 +60,55 @@ const NotesPage = () => {
         <Stack.Screen
           options={{
             headerTitle: `Notiz #${id}`,
-            headerRight: () => (
-              hasChanged ? (<View style={{marginRight: 12}}>
-                <Button onPress={() => {
-                  setHasChanged(false);
-                  saveNoteAsync();
-                }}>Speichern</Button>
-              </View>) : (<></>)
-            ),
+            headerRight: () =>
+              hasChanged ? (
+                <View style={{ marginRight: 12 }}>
+                  <Button
+                    onPress={() => {
+                      setHasChanged(false);
+                      saveNoteAsync();
+                    }}
+                  >
+                    Speichern
+                  </Button>
+                </View>
+              ) : (
+                <></>
+              ),
           }}
         />
       </View>
       <View style={{ height: "100%" }}>
-        <TextArea
-          value={noteText}
-          placeholder="Geben Sie hier Ihre Notiz ein... 🚀✨"
-          onChange={(e: NativeSyntheticEvent<TextInputChangeEventData>) =>
-            setData(e.currentTarget.value)
-          }
-          onChangeText={(text: string) => {setNoteText(text); setHasChanged(true);}}
-          h="100%"
-          w="100%"
-          tvParallaxProperties={undefined}
-          onTextInput={undefined}
-          autoCompleteType={undefined}
-        />
+        <KeyboardAvoidingView style={{ height: "100%" }}>
+          <Box style={{ flex: 1 }}>
+            <TextInput
+              style={styles.textInput}
+              value={noteText}
+              onChangeText={(value) => {
+                setNoteText(value);
+                setHasChanged(true);
+              }}
+              placeholder="Geben Sie hier Ihre Notiz ein... 🚀✨"
+              multiline={true} // Aktiviert TextArea-ähnliches Verhalten
+              numberOfLines={4} // Legt die Höhe des Textfeldes fest
+            />
+          </Box>
+        </KeyboardAvoidingView>
       </View>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  textInput: {
+    height: "100%",
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 8,
+    padding: 10,
+    textAlignVertical: "top", // Text oben ausrichten
+    fontSize: 16,
+  },
+});
 
 export default NotesPage;

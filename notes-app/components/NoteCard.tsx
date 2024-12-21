@@ -40,8 +40,7 @@ export const NoteCard: React.FC<NoteBoxProps> = ({
       <View style={styles.NoteHeading}>
         <View>
           <Text style={styles.NoteHeader}>
-            Notiz:
-            {id}
+            Notiz: {id}
           </Text>
         </View>
         <Pressable style={styles.NoteEdit}>
@@ -122,11 +121,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   NoteEdit: {
-    padding: 12,
+    padding: 10,
     border: "none",
     cursor: "pointer",
     marginLeft: "auto",
     display: "flex",
     borderRadius: 50,
+    backgroundColor: "#DEDEDE",
+    zIndex: 10
   },
 });
