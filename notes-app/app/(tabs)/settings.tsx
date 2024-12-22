@@ -1,6 +1,5 @@
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 import React from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { Section } from "../../components";
 import { Heading, Image } from "native-base";
 
@@ -16,8 +15,10 @@ const settings = () => {
         <View style={styles.Heading}>
           <Heading>Einstellungen</Heading>
         </View>
-        <Section label="Darstellung">
-          <Text>Dunkel/Hell Modus</Text>
+        <Section label="App">
+          <Text>Entwickler: Noah Nikollbibaj</Text>
+          <Text>Erstelldatum: Dezember 2024</Text>
+          <Text>Version: 0.1.0</Text>
         </Section>
         <Section label="Infos">
           <View style={styles.Content}>

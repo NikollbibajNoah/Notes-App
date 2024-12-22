@@ -1,6 +1,6 @@
-import { View, Text, StyleSheet, ScrollView } from "react-native";
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import { AddIcon, Box, Button, Heading, Link } from "native-base";
+import { View, StyleSheet, ScrollView } from "react-native";
+import React, { useCallback, useRef, useState } from "react";
+import { AddIcon, Button, Heading } from "native-base";
 import { CircularButton, GridList, NoteCard } from "../../components";
 import { NoteProps } from "../../NoteProps";
 import {
@@ -10,8 +10,6 @@ import {
 } from "../../services";
 import { useFocusEffect } from "expo-router";
 import { AlertDialog } from "native-base";
-import { SafeAreaView } from "react-native-safe-area-context";
-
 const home = () => {
   const [updatedState, setUpdatedState] = useState(false);
   const [currentNote, setCurrentNote] = useState<number>(null);
@@ -22,17 +20,8 @@ const home = () => {
     useCallback(() => {
       //Get Notes
       const fetchData = async () => {
-        // if (checkConnection() && localStorageState) {
-
-        // }
-        // const notes = await getNotes(); // Local Storage
         const firebaseNotes = await readNotesFromFirebase();
 
-        // if (notes) {
-        //   setData(notes);
-        // } else if (firebaseNotes) {
-        //   setData(Object.values(firebaseNotes));
-        // }
         if (firebaseNotes) {
           setData(Object.values(firebaseNotes));
         }
