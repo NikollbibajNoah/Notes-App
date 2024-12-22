@@ -15,7 +15,6 @@ import { readNoteByIdFromFirebase, updateNoteToFirebase } from "../../services";
 import { NoteProps } from "../../NoteProps";
 import * as ImagePicker from "expo-image-picker";
 import { ImageViewer } from "../../components";
-import { set } from "firebase/database";
 
 const NotesPage = () => {
   const [noteText, setNoteText] = useState<string>("");
@@ -42,10 +41,14 @@ const NotesPage = () => {
 
     if (!result.canceled) {
       const res = result.assets[0].uri;
-      setSelectedImages((prev) => [...prev, res]);
+      if (images) {
+        setSelectedImages([...images, res]);
+      } else {
+        setSelectedImages([res]);
+      }
       setHasChanged(true);
     } else {
-      alert("You did not select any image.");
+      alert("Keine Bild ausgewählt");
     }
   };
 
@@ -53,7 +56,7 @@ const NotesPage = () => {
     const note: NoteProps = {
       id: id,
       content: noteText,
-      images: images,
+      images: images ? images : [],
       date: new Date().toString(),
     };
 
@@ -128,10 +131,15 @@ const NotesPage = () => {
                   </Button>
                 )}
                 {isFocused && (
-                  <Button  style={{ backgroundColor: 'transparent' }}  onPress={() => {
-                    Keyboard.dismiss();
-                    setIsFocused(false);
-                  }}><Text style={{fontWeight: "bold"}}>Fertig</Text></Button>
+                  <Button
+                    style={{ backgroundColor: "transparent" }}
+                    onPress={() => {
+                      Keyboard.dismiss();
+                      setIsFocused(false);
+                    }}
+                  >
+                    <Text style={{ fontWeight: "bold" }}>Fertig</Text>
+                  </Button>
                 )}
               </View>
             ),
@@ -245,7 +253,7 @@ const styles = StyleSheet.create({
     bottom: -25,
     left: "50%",
     transform: [{ translateX: -25 }],
-    zIndex: 10,
+    zIndex: 1000,
   },
 });
 
