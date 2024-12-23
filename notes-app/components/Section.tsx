@@ -18,15 +18,16 @@ export const Section: React.FC<SectionProps> = ({ label, children }) => {
 };
 
 const styles = StyleSheet.create({
-    Label: {
-        fontWeight: "bold",
-        marginBottom: 10
-    },
+  Label: {
+    fontWeight: "bold",
+    marginBottom: 10,
+    fontFamily: "NotoSans-Bold",
+  },
   Container: {
-    marginBottom: 32
+    marginBottom: 32,
   },
   Content: {
     paddingLeft: 10,
     paddingRight: 10,
-  }
+  },
 });

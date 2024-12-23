@@ -13,16 +13,22 @@ const settings = () => {
     <View style={styles.Container}>
       <ScrollView>
         <View style={styles.Heading}>
-          <Heading>Einstellungen</Heading>
+          <Heading style={{fontFamily: "NotoSans-Regular"}}>Einstellungen</Heading>
         </View>
+        <Section label="Daten">
+          <Text style={{fontFamily: "NotoSans-Regular"}}>
+            Notizen werden in der Cloud auf Firebase gespeichert und sind somit auf 
+            allen Geräten verfügbar. Die Daten werden nicht an Dritte weitergegeben.
+          </Text>
+        </Section>
         <Section label="App">
-          <Text>Entwickler: Noah Nikollbibaj</Text>
-          <Text>Erstelldatum: Dezember 2024</Text>
-          <Text>Version: 0.1.0</Text>
+          <Text style={{fontFamily: "NotoSans-Regular"}}>Entwickler: Noah Nikollbibaj</Text>
+          <Text style={{fontFamily: "NotoSans-Regular"}}>Erstelldatum: Dezember 2024</Text>
+          <Text style={{fontFamily: "NotoSans-Regular"}}>Version: 0.1.0</Text>
         </Section>
         <Section label="Infos">
           <View style={styles.Content}>
-            <Text>
+            <Text style={{fontFamily: "NotoSans-Regular"}}>
               Diese App wurde für das ÜK Modul 335 erstellt und dient zu test-
               und lernzwecken. Die benutzten Framework und Tools sind unter
               anderem React Native, Expo mit TypeScript. Geschrieben und

@@ -68,7 +68,7 @@ const home = () => {
   return (
     <View style={styles.Container}>
       <View style={styles.Heading}>
-        <Heading>Guten Tag! Hier sind deine Notizen</Heading>
+        <Heading style={styles.Font}>Guten Tag! Hier sind deine Notizen</Heading>
       </View>
       <ScrollView>
         <View style={styles.Grid}>
@@ -164,6 +164,9 @@ const styles = StyleSheet.create({
     right: 0,
     margin: 32,
   },
+  Font: {
+    fontFamily: "NotoSans-Regular"
+  }
 });
 
 export default home;

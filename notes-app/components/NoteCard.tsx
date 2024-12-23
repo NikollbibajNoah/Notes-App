@@ -46,6 +46,7 @@ export const NoteCard: React.FC<NoteBoxProps> = ({
         <Pressable style={styles.NoteEdit}>
           <Menu
             w="190"
+            offset={-64}
             trigger={(triggerProps) => {
               return (
                 <Pressable
@@ -77,8 +78,8 @@ export const NoteCard: React.FC<NoteBoxProps> = ({
             <Text numberOfLines={4}>{content}</Text>
           </View>
           <View style={styles.DateDisplay}>
-            Zuletzt bearbeitet:
-            <Text style={{ color: "gray" }}>
+            <Text style={{ fontFamily: "NotoSans-Regular" }}>Zuletzt bearbeitet:</Text>
+            <Text style={{ color: "gray", fontFamily: "NotoSans-Italic" }}>
               {dateString} - {dateTimeString}
             </Text>
           </View>
@@ -101,7 +102,7 @@ const styles = StyleSheet.create({
     elevation: 5,
     padding: 6,
     display: "flex",
-    flexDirection: "column",
+    flexDirection: "column"
   },
   NoteContent: {
     height: 70,
@@ -110,9 +111,11 @@ const styles = StyleSheet.create({
   },
   NoteHeader: {
     fontSize: 16,
+    fontFamily: "NotoSans-Bold"
   },
   DateDisplay: {
     marginTop: "auto",
+    fontFamily: "NotoSans-Regular"
   },
   NoteHeading: {
     height: 32,

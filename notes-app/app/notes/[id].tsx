@@ -220,7 +220,7 @@ const NotesPage = () => {
                   ))}
                 </ScrollView>
               ) : (
-                <Text>Kein Bild ausgewählt 📷</Text>
+                <Text style={{fontFamily: "NotoSans-Regular"}}>Kein Bild ausgewählt 📷</Text>
               )}
             </View>
           </Box>
@@ -239,6 +239,7 @@ const styles = StyleSheet.create({
     padding: 10,
     textAlignVertical: "top",
     fontSize: 16,
+    fontFamily: "NotoSans-Regular"
   },
   PhotoButton: {
     position: "absolute",
