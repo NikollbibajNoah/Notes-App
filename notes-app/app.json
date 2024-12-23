@@ -5,6 +5,12 @@
       "expo-router"
     ],
     "name": "notes-app",
-    "slug": "notes-app"
+    "slug": "notes-app",
+    "icon": "./assets/images/icon.png",
+    "splash": {
+        "image": "./assets/images/splash.png",
+        "resizeMode": "cover",
+        "backgroundColor": "#e0eaf5"
+      }
   }
 }

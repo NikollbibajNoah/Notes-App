@@ -3,10 +3,10 @@ import React from "react";
 import { Section } from "../../components";
 import { Heading, Image } from "native-base";
 
-const benedictLogo = require("../../assets/benedict.png");
-const expoLogo = require("../../assets/expo.png");
-const reactLogo = require("../../assets/react.png");
-const firebaseLogo = require("../../assets/firebase.png");
+const benedictLogo = require("../../assets/logos/benedict.png");
+const expoLogo = require("../../assets/logos/expo.png");
+const reactLogo = require("../../assets/logos/react.png");
+const firebaseLogo = require("../../assets/logos/firebase.png");
 
 const settings = () => {
   return (
