@@ -1,4 +1,4 @@
-import { View, StyleSheet, ScrollView } from "react-native";
+import { View, StyleSheet, ScrollView, Text } from "react-native";
 import React, { useCallback, useRef, useState } from "react";
 import { AddIcon, Button, Heading } from "native-base";
 import { CircularButton, GridList, NoteCard } from "../../components";
@@ -48,6 +48,8 @@ const home = () => {
 
     if (firebaseNotes) {
       setData(Object.values(firebaseNotes));
+    } else {
+      setData([]);
     }
   };
 
@@ -120,7 +122,7 @@ const home = () => {
       <ScrollView>
         <View style={styles.Grid}>
           <GridList>
-            {data && data.length > 0 ? (
+            {data.length > 0 ? (
               data
                 .sort(
                   (a: NoteProps, b: NoteProps) =>
@@ -137,7 +139,9 @@ const home = () => {
                   />
                 ))
             ) : (
-              <View>Erstelle deine erste Notiz! 🙌👌</View>
+              <View>
+                <Text>Erstelle deine erste Notiz! 🙌👌</Text>
+              </View>
             )}
           </GridList>
         </View>
