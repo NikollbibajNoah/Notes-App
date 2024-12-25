@@ -10,23 +10,51 @@ import {
 } from "../../services";
 import { useFocusEffect } from "expo-router";
 import { AlertDialog } from "native-base";
+
+
+/**
+ * Die Home-Komponente zeigt eine Liste von Notizen an und ermöglicht das Hinzufügen und Löschen von Notizen.
+ * 
+ * @component
+ * 
+ * @returns {JSX.Element} Die gerenderte Home-Komponente.
+ * 
+ * @description
+ * Diese Komponente verwendet Firebase, um Notizen zu speichern und abzurufen. 
+ * Sie zeigt eine Liste von Notizen an, die nach Datum sortiert sind, und bietet Schaltflächen zum Hinzufügen und Löschen von Notizen.
+ * 
+ * @example
+ * <Home />
+ */
 const home = () => {
   const [updatedState, setUpdatedState] = useState(false);
   const [currentNote, setCurrentNote] = useState<number>(null);
   const [data, setData] = useState<NoteProps[]>([]);
   const [isOpen, setIsOpen] = useState(false);
 
+  /**
+   * Ruft Notizen aus Firebase ab und aktualisiert den Zustand mit den abgerufenen Daten.
+   * 
+   * Diese Funktion liest Notizen aus Firebase und setzt die abgerufenen Daten in den Zustand,
+   * falls Notizen vorhanden sind.
+   * 
+   * @async
+   * @function fetchData
+   * @returns {Promise<void>} Eine Promise, die aufgelöst wird, wenn die Daten erfolgreich abgerufen wurden.
+   */
+
+  const fetchData = async () => {
+    const firebaseNotes = await readNotesFromFirebase();
+
+    if (firebaseNotes) {
+      setData(Object.values(firebaseNotes));
+    }
+  };
+
   useFocusEffect(
     useCallback(() => {
-      //Get Notes
-      const fetchData = async () => {
-        const firebaseNotes = await readNotesFromFirebase();
 
-        if (firebaseNotes) {
-          setData(Object.values(firebaseNotes));
-        }
-      };
-
+      //Lade Daten aus Firebase
       fetchData();
 
       setUpdatedState(false);
@@ -38,10 +66,23 @@ const home = () => {
   const onClose = () => setIsOpen(false);
   const cancelRef = useRef(null);
 
+  /**
+   * Erstellt eine neue Notiz mit einer eindeutigen ID und fügt sie zu Firebase hinzu.
+   * 
+   * @async
+   * @function handleNewNote
+   * @returns {Promise<void>} - Eine Promise, die aufgelöst wird, wenn die Notiz erfolgreich zu Firebase hinzugefügt wurde.
+   * 
+   * @description
+   * Diese Funktion generiert eine neue Notiz-ID basierend auf der Länge der vorhandenen Daten.
+   * Sie überprüft, ob die generierte ID bereits existiert und passt sie gegebenenfalls an, um Duplikate zu vermeiden.
+   * Anschließend wird eine neue Notiz mit Standardinhalt und aktuellem Datum erstellt und zu Firebase hinzugefügt.
+   * Der Status wird aktualisiert, um die Benutzeroberfläche zu aktualisieren.
+   */
   const handleNewNote = async () => {
     let newId = data.length + 1;
 
-    //Check duplicate ids
+    //Kontrolliere duplizierte IDs
     data.map((note: NoteProps) => {
       if (newId === note.id) {
         newId = note.id + 1;
@@ -50,7 +91,7 @@ const home = () => {
 
     const newNote: NoteProps = {
       id: newId,
-      content: "Das ist meine neue Notiz! Click mich um zu bearbeiten.",
+      content: "Das ist meine neue Notiz! Click mich um zu bearbeiten.💫🖊️",
       date: new Date().toString(),
     };
 
@@ -59,6 +100,12 @@ const home = () => {
     setUpdatedState(true);
   };
 
+  /**
+   * Löscht eine Notiz aus Firebase und aktualisiert den Zustand.
+   *
+   * @param {number} id - Die ID der zu löschenden Notiz.
+   * @returns {Promise<void>} - Ein Promise, das aufgelöst wird, wenn die Notiz gelöscht wurde.
+   */
   const handleNoteDelete = async (id: number) => {
     await deleteNoteFromFirebase(id);
 

@@ -1,13 +1,34 @@
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 import React from "react";
-import { Section } from "../../components";
+import { benedictLogo, expoLogo, firebaseLogo, reactLogo, Section } from "../../components";
 import { Heading, Image } from "native-base";
 
-const benedictLogo = require("../../assets/logos/benedict.png");
-const expoLogo = require("../../assets/logos/expo.png");
-const reactLogo = require("../../assets/logos/react.png");
-const firebaseLogo = require("../../assets/logos/firebase.png");
-
+/**
+ * Die `settings`-Komponente rendert die Einstellungen-Seite der Notizen-App.
+ * 
+ * @returns {JSX.Element} Die gerenderte Einstellungen-Seite.
+ * 
+ * @component
+ * 
+ * @example
+ * // Beispielnutzung
+ * <settings />
+ * 
+ * @description
+ * Diese Komponente zeigt verschiedene Abschnitte der Einstellungen an, einschließlich:
+ * - Daten: Informationen darüber, wie Notizen in der Cloud auf Firebase gespeichert werden.
+ * - App: Informationen über den Entwickler, das Erstelldatum und die Version der App.
+ * - Infos: Zusätzliche Informationen über die App und die verwendeten Frameworks und Tools.
+ * 
+ * @remarks
+ * Die Komponente verwendet verschiedene benutzerdefinierte Stile und Schriftarten, um den Text und die Layouts zu formatieren.
+ * 
+ * @see {@link https://reactnative.dev/ React Native}
+ * @see {@link https://expo.dev/ Expo}
+ * @see {@link https://www.typescriptlang.org/ TypeScript}
+ * @see {@link https://code.visualstudio.com/ Visual Studio Code}
+ * @see {@link https://github.com/ GitHub}
+ */
 const settings = () => {
   return (
     <View style={styles.Container}>

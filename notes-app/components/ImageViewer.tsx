@@ -1,20 +1,33 @@
 import { StyleSheet, View } from "react-native";
-import { Image, ImageSource } from "expo-image";
+import { Image } from "expo-image";
 import { Button, DeleteIcon } from "native-base";
 
-type Props = {
-  imgSource?: ImageSource;
+/**
+ * Eigenschaften für die ImageViewer-Komponente.
+ *
+ * @typedef {Object} ImageViewerProps
+ * @property {string} [selectedImage] - Der Pfad zum ausgewählten Bild. Optional.
+ * @property {Function} onDelete - Eine Funktion, die aufgerufen wird, wenn das Bild gelöscht werden soll.
+ */
+type ImageViewerProps = {
   selectedImage?: string;
   onDelete: () => void;
 };
 
-export const ImageViewer = ({ imgSource, selectedImage, onDelete }: Props) => {
-  const imageSource = selectedImage ? { uri: selectedImage } : imgSource;
-
+/**
+ * Ein Komponenten, die ein Bild und eine Löschtaste anzeigt.
+ *
+ * @param {Object} props - Die Eigenschaften der Komponente.
+ * @param {ImageSourcePropType} props.selectedImage - Das ausgewählte Bild, das angezeigt werden soll.
+ * @param {Function} props.onDelete - Die Funktion, die aufgerufen wird, wenn die Löschtaste gedrückt wird.
+ *
+ * @returns {JSX.Element} Die ImageViewer-Komponente.
+ */
+export const ImageViewer = ({ selectedImage, onDelete }: ImageViewerProps) => {
   return (
     <View>
       <View>
-        <Image source={selectedImage} style={styles.image} />;
+        <Image source={selectedImage} style={styles.Image} />;
       </View>
       <View>
         <Button style={styles.Button} onPress={onDelete} >
@@ -26,7 +39,7 @@ export const ImageViewer = ({ imgSource, selectedImage, onDelete }: Props) => {
 };
 
 const styles = StyleSheet.create({
-  image: {
+  Image: {
     width: 320,
     height: 440,
     borderRadius: 18,

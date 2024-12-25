@@ -25,6 +25,13 @@ const NotesPage = () => {
   const [params] = useSearchParams();
   const id: number = Number(params[1]);
 
+  /**
+   * Ruft die Notizdaten von Firebase ab und setzt den Notiztext und die ausgewählten Bilder.
+   *
+   * @async
+   * @function fetchNoteData
+   * @returns {Promise<void>} Ein Promise, das aufgelöst wird, wenn die Notizdaten abgerufen und gesetzt wurden.
+   */
   const fetchNoteData = async () => {
     const data = await readNoteByIdFromFirebase(id);
 
@@ -32,6 +39,16 @@ const NotesPage = () => {
     setSelectedImages(data.images);
   };
 
+  /**
+   * Öffnet die Bildbibliothek des Geräts, um ein Bild auszuwählen.
+   * Wenn ein Bild ausgewählt wird, wird es zur Liste der ausgewählten Bilder hinzugefügt
+   * und der Status wird auf geändert gesetzt.
+   * Wenn kein Bild ausgewählt wird, wird eine Warnung angezeigt.
+   *
+   * @async
+   * @function pickImageAsync
+   * @returns {Promise<void>} Eine Promise, die aufgelöst wird, wenn der Bildauswahlprozess abgeschlossen ist.
+   */
   const pickImageAsync = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ["images"],
@@ -52,6 +69,16 @@ const NotesPage = () => {
     }
   };
 
+  /**
+   * Speichert die Notiz asynchron.
+   * 
+   * Diese Funktion erstellt ein `NoteProps`-Objekt mit der aktuellen Notiz-ID, dem Notiztext,
+   * den Bildern (falls vorhanden) und dem aktuellen Datum. Anschließend wird die Notiz in Firebase aktualisiert.
+   * 
+   * @async
+   * @function
+   * @returns {Promise<void>} Ein Promise, das aufgelöst wird, wenn die Notiz erfolgreich gespeichert wurde.
+   */
   const saveNoteAsync = async () => {
     const note: NoteProps = {
       id: id,
@@ -63,6 +90,11 @@ const NotesPage = () => {
     await updateNoteToFirebase(note);
   };
 
+  /**
+   * Löscht ein Bild aus der Liste der ausgewählten Bilder.
+   *
+   * @param {number} id - Die ID des zu löschenden Bildes.
+   */
   const deleteImg = (id: number) => {
     const p1 = images?.slice(0, id);
     const p2 = images?.slice(id + 1, images.length);
@@ -71,6 +103,11 @@ const NotesPage = () => {
     setHasChanged(true);
   };
 
+  /**
+   * Kollabiert den aktuellen Abschnitt und setzt den Abschnittstyp.
+   * Erhöht den Abschnittstyp um 1. Wenn der aktuelle Abschnittstyp größer als 2 ist,
+   * wird der Abschnittstyp auf 0 zurückgesetzt.
+   */
   const collapseSection = () => {
     const currentType = sectionType + 1;
 

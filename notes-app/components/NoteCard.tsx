@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { View, StyleSheet, Text, Button, Pressable } from "react-native";
 import { NoteProps } from "../NoteProps";
 import { Link } from "expo-router";
@@ -8,6 +8,15 @@ interface NoteBoxProps extends NoteProps {
   onDelete: (id: number) => void;
 }
 
+/**
+ * Schnittstelle für ein Menüelement.
+ *
+ * @interface MenuItem
+ * @property {string} title - Der Titel des Menüelements.
+ * @property {() => void} onClick - Die Funktion, die beim Klicken auf das Menüelement aufgerufen wird.
+ * @property {React.ReactNode} [icon] - Optionales Symbol, das im Menüelement angezeigt wird.
+ * @property {boolean} [isDisabled] - Optionales Flag, das angibt, ob das Menüelement deaktiviert ist.
+ */
 export interface MenuItem {
   title: string;
   onClick: () => void;
@@ -15,10 +24,22 @@ export interface MenuItem {
   isDisabled?: boolean;
 }
 
+/**
+ * NoteCard-Komponente, die eine Notiz anzeigt und Optionen zum Löschen bietet.
+ *
+ * @param {NoteBoxProps} props - Die Eigenschaften der NoteCard-Komponente.
+ * @param {string} props.id - Die eindeutige ID der Notiz.
+ * @param {string} props.content - Der Inhalt der Notiz.
+ * @param {string} props.date - Das Datum der letzten Bearbeitung der Notiz.
+ * @param {function} props.onDelete - Die Funktion, die aufgerufen wird, wenn die Notiz gelöscht werden soll.
+ *
+ * @returns {JSX.Element} Die gerenderte NoteCard-Komponente.
+ */
 export const NoteCard: React.FC<NoteBoxProps> = ({
   id,
   content,
   date,
+  images,
   onDelete,
 }) => {
   const dateString = new Date(date).toLocaleDateString();
@@ -38,10 +59,9 @@ export const NoteCard: React.FC<NoteBoxProps> = ({
   return (
     <View style={styles.NoteBox}>
       <View style={styles.NoteHeading}>
-        <View>
-          <Text style={styles.NoteHeader}>
-            Notiz: {id}
-          </Text>
+        <View style={{display: "flex", flexDirection: "row", alignItems: "center", gap: 4}}>
+          <Text style={styles.NoteHeader}>Notiz: {id}</Text>
+          {images && images.length > 0 ? (<Text>📷: {images.length}</Text>) : <></>}
         </View>
         <Pressable style={styles.NoteEdit}>
           <Menu
@@ -78,7 +98,9 @@ export const NoteCard: React.FC<NoteBoxProps> = ({
             <Text numberOfLines={4}>{content}</Text>
           </View>
           <View style={styles.DateDisplay}>
-            <Text style={{ fontFamily: "NotoSans-Regular" }}>Zuletzt bearbeitet:</Text>
+            <Text style={{ fontFamily: "NotoSans-Regular" }}>
+              Zuletzt bearbeitet:
+            </Text>
             <Text style={{ color: "gray", fontFamily: "NotoSans-Italic" }}>
               {dateString} - {dateTimeString}
             </Text>
@@ -102,7 +124,7 @@ const styles = StyleSheet.create({
     elevation: 5,
     padding: 6,
     display: "flex",
-    flexDirection: "column"
+    flexDirection: "column",
   },
   NoteContent: {
     height: 70,
@@ -111,11 +133,11 @@ const styles = StyleSheet.create({
   },
   NoteHeader: {
     fontSize: 16,
-    fontFamily: "NotoSans-Bold"
+    fontFamily: "NotoSans-Bold",
   },
   DateDisplay: {
     marginTop: "auto",
-    fontFamily: "NotoSans-Regular"
+    fontFamily: "NotoSans-Regular",
   },
   NoteHeading: {
     height: 32,
@@ -131,6 +153,15 @@ const styles = StyleSheet.create({
     display: "flex",
     borderRadius: 50,
     backgroundColor: "#DEDEDE",
-    zIndex: 10
+    zIndex: 10,
+  },
+  ImgCount: {
+    zIndex: 10,
+    position: "absolute",
+    left: 0,
+    bottom: 0,
+    padding: 4,
+    borderRadius: 10,
+    backgroundColor: "rgba(255, 255, 255, 1)",
   },
 });
