@@ -23,3 +23,5 @@ Die App dient zu schulischen Zwecken und bietet keinen grossen Nutzen zur Speich
 - Version: 0.1.0
 - Entwickler: Noah Nikollbibaj
 - Datum: 30.12.2024
+
+![showcaseOptimized](https://github.com/user-attachments/assets/e14cb4d5-6cd8-4c37-9c4d-a090d4a9db37)
