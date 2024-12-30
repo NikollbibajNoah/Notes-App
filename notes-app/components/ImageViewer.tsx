@@ -1,17 +1,20 @@
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, Text } from "react-native";
 import { Image } from "expo-image";
-import { Button, DeleteIcon } from "native-base";
+import { Button } from "native-base";
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 
 /**
  * Eigenschaften für die ImageViewer-Komponente.
- *
- * @typedef {Object} ImageViewerProps
- * @property {string} [selectedImage] - Der Pfad zum ausgewählten Bild. Optional.
- * @property {Function} onDelete - Eine Funktion, die aufgerufen wird, wenn das Bild gelöscht werden soll.
+ * @property {string} [selectedImage] - Der Pfad zum ausgewählten Bild.
+ * @property {() => void} onDelete - Funktion, die aufgerufen wird, um das Bild zu löschen.
+ * @property {(src: string) => void} [onRotate] - Optionale Funktion, die aufgerufen wird, um das Bild zu drehen.
+ * @property {(src: string) => void} [onFlip] - Optionale Funktion, die aufgerufen wird, um das Bild zu spiegeln.
  */
 type ImageViewerProps = {
   selectedImage?: string;
   onDelete: () => void;
+  onRotate?: (src: string) => void;
+  onFlip?: (src: string) => void;
 };
 
 /**
@@ -23,16 +26,37 @@ type ImageViewerProps = {
  *
  * @returns {JSX.Element} Die ImageViewer-Komponente.
  */
-export const ImageViewer = ({ selectedImage, onDelete }: ImageViewerProps) => {
+export const ImageViewer = ({
+  selectedImage,
+  onDelete,
+  onRotate,
+  onFlip,
+}: ImageViewerProps) => {
   return (
     <View>
       <View>
-        <Image source={selectedImage} style={styles.Image} />;
+        <Image source={selectedImage} style={styles.Image} />
       </View>
       <View>
-        <Button style={styles.Button} onPress={onDelete} >
-          <DeleteIcon color="white" />
-        </Button>
+        <View style={styles.Actions}>
+          <Button
+            style={styles.EditButton}
+            onPress={() => onRotate(selectedImage)}
+          >
+            <MaterialIcons name="rotate-right" size={24} color="white" />
+          </Button>
+          <Button
+            style={styles.EditButton}
+            onPress={() => onFlip(selectedImage)}
+          >
+            <MaterialIcons name="flip" size={24} color="white" />
+          </Button>
+        </View>
+        <View style={styles.DeleteActions}>
+          <Button style={styles.EditButton} onPress={onDelete}>
+            <MaterialIcons name="delete" size={24} color="white" />
+          </Button>
+        </View>
       </View>
     </View>
   );
@@ -44,14 +68,24 @@ const styles = StyleSheet.create({
     height: 440,
     borderRadius: 18,
   },
-  Button: {
+  Actions: {
+    position: "absolute",
+    left: 0,
+    bottom: 0,
+    margin: 16,
+    display: "flex",
+    flexDirection: "row",
+    gap: 20,
+  },
+  DeleteActions: {
+    position: "absolute",
+    right: 0,
+    bottom: 0,
+    margin: 16,
+  },
+  EditButton: {
+    borderRadius: 50,
     width: 50,
     height: 50,
-    position: "absolute",
-    bottom: 0,
-    right: 0,
-    margin: 16,
-    color: "white",
-    borderRadius: 50,
-  }
+  },
 });

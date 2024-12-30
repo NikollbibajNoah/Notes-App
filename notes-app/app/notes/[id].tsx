@@ -15,6 +15,7 @@ import { readNoteByIdFromFirebase, updateNoteToFirebase } from "../../services";
 import { NoteProps } from "../../NoteProps";
 import * as ImagePicker from "expo-image-picker";
 import { ImageViewer } from "../../components";
+import { FlipType, manipulateAsync, SaveFormat } from "expo-image-manipulator";
 
 const NotesPage = () => {
   const [noteText, setNoteText] = useState<string>("");
@@ -71,10 +72,10 @@ const NotesPage = () => {
 
   /**
    * Speichert die Notiz asynchron.
-   * 
+   *
    * Diese Funktion erstellt ein `NoteProps`-Objekt mit der aktuellen Notiz-ID, dem Notiztext,
    * den Bildern (falls vorhanden) und dem aktuellen Datum. Anschließend wird die Notiz in Firebase aktualisiert.
-   * 
+   *
    * @async
    * @function
    * @returns {Promise<void>} Ein Promise, das aufgelöst wird, wenn die Notiz erfolgreich gespeichert wurde.
@@ -115,6 +116,54 @@ const NotesPage = () => {
       setSectionType(0);
     } else {
       setSectionType(currentType);
+    }
+  };
+
+  /**
+   * Dreht ein Bild um 90 Grad und aktualisiert die Bild-URI in der Liste.
+   *
+   * @param {string} img - Der Pfad zum Bild, das gedreht werden soll.
+   * @param {number} id - Die ID des Bildes in der Liste.
+   * @returns {Promise<void>} - Eine Promise, die aufgelöst wird, wenn die Bildmanipulation abgeschlossen ist.
+   * @throws {Error} - Gibt einen Fehler aus, wenn die Bildmanipulation fehlschlägt.
+   */
+  const rotateImage = async (img: string, id: number) => {
+    try {
+      const result = await manipulateAsync(img, [{ rotate: 90 }], {
+        compress: 1,
+        format: SaveFormat.JPEG,
+      });
+
+      images[id] = result.uri;
+
+      setSelectedImages([...images]);
+      setHasChanged(true);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  
+  /**
+   * Dreht ein Bild vertikal und aktualisiert die Bildliste.
+   *
+   * @param {string} img - Der Pfad des zu drehenden Bildes.
+   * @param {number} id - Die ID des Bildes in der Bildliste.
+   * @returns {Promise<void>} - Eine Promise, die aufgelöst wird, wenn das Bild erfolgreich gedreht wurde.
+   * @throws {Error} - Wenn ein Fehler beim Drehen des Bildes auftritt.
+   */
+  const flipImage = async (img: string, id: number) => {
+    try {
+      const result = await manipulateAsync(img, [{ flip: FlipType.Vertical }], {
+        compress: 1,
+        format: SaveFormat.JPEG,
+      });
+
+      images[id] = result.uri;
+
+      setSelectedImages([...images]);
+      setHasChanged(true);
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -252,12 +301,16 @@ const NotesPage = () => {
                         key={i}
                         selectedImage={image}
                         onDelete={() => deleteImg(i)}
+                        onRotate={() => rotateImage(image, i)}
+                        onFlip={() => flipImage(image, i)}
                       />
                     </View>
                   ))}
                 </ScrollView>
               ) : (
-                <Text style={{fontFamily: "NotoSans-Regular"}}>Kein Bild ausgewählt 📷</Text>
+                <Text style={{ fontFamily: "NotoSans-Regular" }}>
+                  Kein Bild ausgewählt 📷
+                </Text>
               )}
             </View>
           </Box>
@@ -276,7 +329,7 @@ const styles = StyleSheet.create({
     padding: 10,
     textAlignVertical: "top",
     fontSize: 16,
-    fontFamily: "NotoSans-Regular"
+    fontFamily: "NotoSans-Regular",
   },
   PhotoButton: {
     position: "absolute",
