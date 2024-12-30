@@ -1,28 +1,34 @@
 import { View, Text, StyleSheet, ScrollView } from "react-native";
-import React from "react";
-import { benedictLogo, expoLogo, firebaseLogo, reactLogo, Section } from "../../components";
-import { Heading, Image } from "native-base";
+import React, { useState } from "react";
+import {
+  benedictLogo,
+  expoLogo,
+  firebaseLogo,
+  reactLogo,
+  Section,
+} from "../../components";
+import { Heading, Image, Switch } from "native-base";
 
 /**
  * Die `settings`-Komponente rendert die Einstellungen-Seite der Notizen-App.
- * 
+ *
  * @returns {JSX.Element} Die gerenderte Einstellungen-Seite.
- * 
+ *
  * @component
- * 
+ *
  * @example
  * // Beispielnutzung
  * <settings />
- * 
+ *
  * @description
  * Diese Komponente zeigt verschiedene Abschnitte der Einstellungen an, einschließlich:
  * - Daten: Informationen darüber, wie Notizen in der Cloud auf Firebase gespeichert werden.
  * - App: Informationen über den Entwickler, das Erstelldatum und die Version der App.
  * - Infos: Zusätzliche Informationen über die App und die verwendeten Frameworks und Tools.
- * 
+ *
  * @remarks
  * Die Komponente verwendet verschiedene benutzerdefinierte Stile und Schriftarten, um den Text und die Layouts zu formatieren.
- * 
+ *
  * @see {@link https://reactnative.dev/ React Native}
  * @see {@link https://expo.dev/ Expo}
  * @see {@link https://www.typescriptlang.org/ TypeScript}
@@ -34,22 +40,39 @@ const settings = () => {
     <View style={styles.Container}>
       <ScrollView>
         <View style={styles.Heading}>
-          <Heading style={{fontFamily: "NotoSans-Regular"}}>Einstellungen</Heading>
+          <Heading style={{ fontFamily: "NotoSans-Regular" }}>
+            Einstellungen
+          </Heading>
         </View>
+        <Section label="Speicherung">
+          <View style={{display: "flex", flexDirection: "row", alignItems: "center", gap: 10}}>
+            <Switch />
+            <Text style={{fontFamily: "NotoSans-Italic"}}>Datum einschliessen</Text>
+          </View>
+          <Text style={{ fontFamily: "NotoSans-Regular", marginTop: 10 }}>
+            Das Datum der Notizen wird in der Datenbank mitgepspeichert, um die
+            Sortierung zu ermöglichen und letzte Bearbeitungszeit anzuzeigen. Wird jedoch standartsmässig mitgepspeichert!
+          </Text>
+        </Section>
         <Section label="Daten">
-          <Text style={{fontFamily: "NotoSans-Regular"}}>
-            Notizen werden in der Cloud auf Firebase gespeichert und sind somit auf 
-            allen Geräten verfügbar. Die Daten werden nicht an Dritte weitergegeben.
+          <Text style={{ fontFamily: "NotoSans-Regular" }}>
+            Notizen werden in der Cloud auf Firebase gespeichert und sind somit
+            auf allen Geräten verfügbar. Die Daten werden nicht an Dritte
+            weitergegeben.
           </Text>
         </Section>
         <Section label="App">
-          <Text style={{fontFamily: "NotoSans-Regular"}}>Entwickler: Noah Nikollbibaj</Text>
-          <Text style={{fontFamily: "NotoSans-Regular"}}>Erstelldatum: Dezember 2024</Text>
-          <Text style={{fontFamily: "NotoSans-Regular"}}>Version: 0.1.0</Text>
+          <Text style={{ fontFamily: "NotoSans-Regular" }}>
+            Entwickler: Noah Nikollbibaj
+          </Text>
+          <Text style={{ fontFamily: "NotoSans-Regular" }}>
+            Erstelldatum: Dezember 2024
+          </Text>
+          <Text style={{ fontFamily: "NotoSans-Regular" }}>Version: 0.1.0</Text>
         </Section>
         <Section label="Infos">
           <View style={styles.Content}>
-            <Text style={{fontFamily: "NotoSans-Regular"}}>
+            <Text style={{ fontFamily: "NotoSans-Regular" }}>
               Diese App wurde für das ÜK Modul 335 erstellt und dient zu test-
               und lernzwecken. Die benutzten Framework und Tools sind unter
               anderem React Native, Expo mit TypeScript. Geschrieben und

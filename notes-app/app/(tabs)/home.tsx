@@ -181,7 +181,7 @@ const home = () => {
                   onClose();
                 }}
               >
-                Löschen
+                Weg damit!
               </Button>
             </Button.Group>
           </AlertDialog.Footer>

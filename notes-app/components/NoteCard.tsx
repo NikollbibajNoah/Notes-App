@@ -3,7 +3,6 @@ import { View, StyleSheet, Text, Button, Pressable } from "react-native";
 import { NoteProps } from "../NoteProps";
 import { Link } from "expo-router";
 import { Menu, HamburgerIcon, DeleteIcon } from "native-base";
-
 interface NoteBoxProps extends NoteProps {
   onDelete: (id: number) => void;
 }
