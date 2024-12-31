@@ -10,7 +10,10 @@
     "splash": {
         "image": "./assets/images/splash.png",
         "resizeMode": "cover",
-        "backgroundColor": "#e0eaf5"
-      }
+        "backgroundColor": "#000000"
+      },
+    "ios": {
+      "supportsTablet": true
+    }
   }
 }

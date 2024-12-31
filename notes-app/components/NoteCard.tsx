@@ -100,7 +100,7 @@ export const NoteCard: React.FC<NoteBoxProps> = ({
             <Text style={{ fontFamily: "NotoSans-Regular" }}>
               Zuletzt bearbeitet:
             </Text>
-            <Text style={{ color: "gray", fontFamily: "NotoSans-Italic" }}>
+            <Text style={{ color: "gray", fontFamily: "NotoSans-Italic", fontSize: 12 }}>
               {dateString} - {dateTimeString}
             </Text>
           </View>
