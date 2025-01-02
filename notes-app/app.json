@@ -8,12 +8,24 @@
     "slug": "notes-app",
     "icon": "./assets/images/icon.png",
     "splash": {
-        "image": "./assets/images/splash.png",
-        "resizeMode": "cover",
-        "backgroundColor": "#000000"
-      },
+      "image": "./assets/images/splash.png",
+      "resizeMode": "cover",
+      "backgroundColor": "#E1ECF0"
+    },
     "ios": {
       "supportsTablet": true
-    }
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "0d034505-41f0-4078-b7b6-5ae9b6997503"
+      }
+    },
+    "android": {
+      "package": "com.niko1512.notesapp"
+    },
+    "owner": "niko1512"
   }
 }

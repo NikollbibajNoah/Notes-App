@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
   },
   NoteContent: {
-    height: 70,
+    height: 65,
     width: "100%",
     color: "gray",
   },
