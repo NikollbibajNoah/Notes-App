@@ -1,8 +1,15 @@
 import React from "react";
-import { View, StyleSheet, Text, Button, Pressable } from "react-native";
+import { View, StyleSheet, Pressable } from "react-native";
 import { NoteProps } from "../NoteProps";
 import { Link } from "expo-router";
-import { Menu, HamburgerIcon, DeleteIcon } from "native-base";
+import {
+  Menu,
+  HamburgerIcon,
+  DeleteIcon,
+  Center,
+  Text,
+  Button,
+} from "native-base";
 interface NoteBoxProps extends NoteProps {
   onDelete: (id: number) => void;
 }
@@ -58,11 +65,22 @@ export const NoteCard: React.FC<NoteBoxProps> = ({
   return (
     <View style={styles.NoteBox}>
       <View style={styles.NoteHeading}>
-        <View style={{display: "flex", flexDirection: "row", alignItems: "center", gap: 4}}>
+        <View
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            gap: 4,
+          }}
+        >
           <Text style={styles.NoteHeader}>Notiz: {id}</Text>
-          {images && images.length > 0 ? (<Text>📷: {images.length}</Text>) : <></>}
+          {images && images.length > 0 ? (
+            <Text>📷: {images.length}</Text>
+          ) : (
+            <></>
+          )}
         </View>
-        <Pressable style={styles.NoteEdit}>
+        <Button style={styles.NoteEdit}>
           <Menu
             w="190"
             offset={-64}
@@ -88,19 +106,27 @@ export const NoteCard: React.FC<NoteBoxProps> = ({
               </Menu.Item>
             ))}
           </Menu>
-        </Pressable>
+        </Button>
       </View>
 
       <Pressable>
         <Link href={`/notes/${id}`}>
-          <View style={styles.NoteContent}>
-            <Text numberOfLines={4}>{content}</Text>
-          </View>
+          <Center style={styles.NoteContent}>
+            <Text numberOfLines={4} style={styles.NoteContentText}>
+              {content}
+            </Text>
+          </Center>
           <View style={styles.DateDisplay}>
             <Text style={{ fontFamily: "NotoSans-Regular" }}>
               Zuletzt bearbeitet:
             </Text>
-            <Text style={{ color: "gray", fontFamily: "NotoSans-Italic", fontSize: 12 }}>
+            <Text
+              style={{
+                color: "gray",
+                fontFamily: "NotoSans-Italic",
+                fontSize: 12,
+              }}
+            >
               {dateString} - {dateTimeString}
             </Text>
           </View>
@@ -129,6 +155,12 @@ const styles = StyleSheet.create({
     height: 65,
     width: "100%",
     color: "gray",
+  },
+  NoteContentText: {
+    width: "100%",
+    height: 65,
+    flexWrap: "wrap",
+    fontSize: 12,
   },
   NoteHeader: {
     fontSize: 16,
